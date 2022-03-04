@@ -1,0 +1,123 @@
+<!-- Ventana Modal Modificar Inventario-->
+<div class="modal fade" id="modificarModalInventario<?php echo $row[0]; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #4e73df !important;">
+        <h6 class="modal-title" style="color: #fff; text-align: center;">
+            Modificar Inventario
+        </h6>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+
+<form method="POST" action="modifyInventary.php">
+
+<input type="hidden" name="id_inventario" value="<?php echo $row[0]; ?>">
+<input type="hidden" name="id_usuario" value="<?php echo $ID ?>">
+<input type="hidden" name="id_producto" value="<?php echo $row[1]; ?>">
+<input type="hidden" name="id_categoria" value="<?php echo $row[2]; ?>">
+<input type="hidden" name="id_descripcion" value="<?php echo $row[3]; ?>">
+<input type="hidden" name="id_marca" value="<?php echo $row[4]; ?>">
+<input type="hidden" name="id_stock" value="<?php echo $row[5]; ?>">
+          
+
+<div class="modal-body" id="cont_modal">
+  
+
+<!-- Listar la lista de productos, que se encuentran registrados -->
+<div class="form-group">
+<label for="recipient-name" class="col-form-label"><b>Productos:</b></label>
+
+<?php include('conex.php');
+                                            
+$consultas = "SELECT `id_producto`, `Nombre` FROM producto ORDER BY Nombre ASC";
+$resulta = $con->query($consultas);
+mysqli_close($con); ?>
+
+<select name="Producto" id="Producto" class="form-control" required="true">
+
+
+
+<?php
+
+if($result > 0){
+
+while ($prod = mysqli_fetch_array($resulta)){ ?>
+
+
+<?php $select = ($prod["Nombre"] == $row[1])?"selected":"";?>
+
+<option value="<?=$prod["id_producto"]?>" <?=$select?> ><?=$prod["Nombre"]?></option>
+
+
+<?php }
+} ?>
+</select>
+</div>
+
+<!-- Fin del listar productos -->
+
+<!-- Listar la lista de categorias, que se encuentran registradas -->
+                <div class="form-group">
+                <label for="recipient-name" class="col-form-label"><b>Categorias:</b></label>
+                <?php
+
+include('conex.php');
+                                            
+$consultas = "SELECT `id_categoria`, `Nombre` FROM categoria ORDER BY Nombre ASC";
+$resulta = $con->query($consultas);
+mysqli_close($con); ?>
+
+<select name="Categoria" id="Categoria" class="form-control" required="true">
+
+
+<?php
+
+if($result > 0){
+
+while ($categ = mysqli_fetch_array($resulta)){ ?>
+
+
+<?php $select = ($categ["Nombre"] == $row[2])?"selected":"";?>
+
+<option value="<?=$categ["id_categoria"]?>" <?=$select?> ><?=$categ["Nombre"]?></option>
+
+
+<?php }
+} ?>
+</select>
+</div>
+
+<!-- Fin del listar Categorias -->
+
+                <div class="form-group">
+                  <label for="recipient-name" class="col-form-label"><b>Descripcion:</b></label>
+                  <input type="text" name="Descripcion" class="form-control form-control-user"
+                                        id="exampleInputPassword" value="<?php echo $row[3]; ?>" required="true">
+                </div>
+
+                <div class="form-group">
+                  <label for="recipient-name" class="col-form-label"><b>Marca:</b></label>
+                  <input type="text" name="Marca" class="form-control form-control-user"
+                                        id="exampleInputPassword" value="<?php echo $row[4]; ?>" required="true">
+                </div>
+
+                <div class="form-group">
+                  <label for="recipient-name" class="col-form-label"><b>Stock:</b></label>
+                  <input type="number" name="Stock" class="form-control form-control-user"
+                                            id="exampleRepeatPassword" value="<?php echo $row[5]; ?>" required="true">
+                </div>               
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+              <button type="submit" onclick="mostrar()"; class="btn btn-primary">Guardar Cambios</button>
+            </div>
+       </form>
+
+    </div>
+  </div>
+</div>
+
+<!---fin ventana Modal Actualizar Inventario --->
